@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Hello World!!" border="normal" width="400px"
+            height="400px"  apply="main.GenerateQuery">
+        <tree id="tree">
+            <treechildren>
+                <treeitem>
+                    <treerow>
+                        <treecell label="item1" />
+                    </treerow>
+                    <treechildren>
+                        <treeitem>
+                            <treerow>
+                                <treecell label="item2" />
+                            </treerow>
+                        </treeitem>
+                    </treechildren>
+                </treeitem>
+            </treechildren>
+        </tree>
+        <div>
+            <textbox id="cellName"/>
+            <button id = "add" label = "Confirm Add child node" />
+            <button id = "addRoot" label = "confirm adding the layer node 0" />
+        </div>
+    </window>
+</zk>
