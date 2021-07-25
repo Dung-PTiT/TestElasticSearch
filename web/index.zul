@@ -1,28 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Hello World!!" border="normal" width="400px"
-            height="400px"  apply="main.GenerateQuery">
-        <tree id="tree">
-            <treechildren>
-                <treeitem>
-                    <treerow>
-                        <treecell label="item1" />
-                    </treerow>
-                    <treechildren>
-                        <treeitem>
-                            <treerow>
-                                <treecell label="item2" />
-                            </treerow>
-                        </treeitem>
-                    </treechildren>
-                </treeitem>
-            </treechildren>
-        </tree>
-        <div>
-            <textbox id="cellName"/>
-            <button id = "add" label = "Confirm Add child node" />
-            <button id = "addRoot" label = "confirm adding the layer node 0" />
+    <style>
+        .divColumn{
+        background-color: #dddddd;  
+        padding: 10px;
+        margin-left: 20px;
+        }
+        
+        .btnPlus{
+        background-color: #00ff51;
+        border: none;
+        border-radius: 30px;
+        font-size: 13px;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer; 
+        margin-left: 10px;
+        }
+        
+        .btnPlus:hover{
+        background-color: #4cce75;
+        }
+        
+        .btnMinus{
+        background-color: #ff0000a1;
+        border: none;
+        border-radius: 30px;
+        font-size: 13px;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer; 
+        margin-left: 10px;
+        }
+        
+        .btnMinus:hover{
+        background-color: #ff0000;
+        }
+        
+        .divMain{
+        display: flex; 
+        margin: 20px;
+        padding: 10px;
+        padding-bottom: 6px; border: 1px solid #dcc896;
+        background: rgba(250,240,210,.5);
+        justify-content: space-around;
+        }
+        
+        .tbCondition{
+        height: 20px;
+        position: relative;
+        border: 2px solid #cdcdcd;
+        border-color: rgba(0, 0, 0, .14);
+        background-color: AliceBlue;
+        font-size: 14px;
+        width: 100px;
+        }
+    </style>
+    <window width="100%" apply="main.ElasticSearch" style="margin:20px"
+            viewModel="@id('vm') @init('main.ElasticSearch', arg1='myValue')">
+        <div style="text-align: center">
+            <label>Select table: </label>
+            <combobox id="cbbTable"/>
+        </div>
+        <div class="divMain">
+            <div style="width: 300px">
+                <div style="display: flex; margin: 20px 0 20px 0">
+                    <label>SELECT</label>
+                    <button id="btnSelect" class="btnPlus" label="+"></button>
+                </div>
+                <div id="divSelect"></div>
+                <div style="display: flex; margin: 20px 0 20px 0">
+                    <label>FROM</label>
+                    <label id="tableName" style="margin-left: 15px">{Table name}</label>
+                </div>
+                <div style="display: flex; margin: 20px 0 20px 0">
+                    <label>WHERE</label>
+                    <button id="btnWhere" class="btnPlus" label="+"></button>
+                </div>
+                <div id="divWhere"></div>
+                <div style="display: flex; margin: 20px 0 20px 0">
+                    <label>ORDER BY</label>
+                    <button id="btnOrderBy" class="btnPlus" label="+"></button>
+                </div>
+                <div id="divOrderBy"></div>
+                <div style="display: flex; margin: 20px 0 20px 0">
+                    <label>LIMIT</label>
+                    <button id="btnLimit" class="btnPlus" label="+">
+                        <attribute name="onClick"><![CDATA[
+Messagebox.show("Are you sure to save?", "Confirm Dialog", Messagebox.OK | Messagebox.IGNORE  | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+    public void onEvent(Event evt) throws InterruptedException {
+        if (evt.getName().equals("onOK")) {
+            alert("Data Saved !");
+        } else if (evt.getName().equals("onIgnore")) {
+            Messagebox.show("Ignore Save", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+        } else {
+            alert("Save Canceled !");
+        }
+    }
+});
+]]></attribute>
+                    </button>
+                </div>
+                <div id="divLimit"></div>
+            </div>
+            <div style="width: 800px;">
+                <grid autopaging="true" mold="paging" vflex="true">
+                    <columns>
+                        <column hflex="1" label="UserID" align="left" />
+                        <column hflex="1" label="UserName" align="center" />
+                        <column hflex="1" label="Password" align="center" />
+                        <column hflex="1" label="Role" align="center" />
+                        <column hflex="1" label="Department" align="center" />
+                        <column hflex="1" label="Address" align="center" />
+                        <column hflex="1" label="MobileNo" align="center" />
+                        <column hflex="1" label="Email" align="center" />
+                        <column hflex="1" label="Status" align="center" />
+                    </columns>
+                    <rows>
+                        <row></row>
+                    </rows>
+                </grid>	
+            </div>
         </div>
     </window>
 </zk>
