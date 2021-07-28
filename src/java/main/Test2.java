@@ -27,13 +27,12 @@ public class Test2 {
         RestClient restClient = RestClient.builder(
                 new HttpHost("localhost", 9200, "http")).build();
 
-        Request request = new Request("POST", "/_sql?format=json");
-        request.setJsonEntity("{\"query\":\"Show tables\"}");
+        Request request = new Request("POST", "/_sql");
+        request.setJsonEntity("{\"query\":\"SELECT * FROM post\"}");
         Response response = restClient.performRequest(request);
         String responseBody = EntityUtils.toString(response.getEntity());
         System.out.println(responseBody);
         JsonObject jsonObject = new JsonParser().parse(responseBody).getAsJsonObject();
-        System.out.println(jsonObject.get("columns"));
         System.out.println(jsonObject.get("rows"));
         restClient.close();
     }
