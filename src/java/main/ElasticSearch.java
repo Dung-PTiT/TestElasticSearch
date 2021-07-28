@@ -3,7 +3,6 @@ package main;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import javax.ejb.Init;
 import model.Table;
 import org.zkoss.bind.annotation.BindingParam;
 
@@ -21,6 +20,9 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.ListModels;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 
 public class ElasticSearch extends SelectorComposer<Component> {
@@ -34,37 +36,55 @@ public class ElasticSearch extends SelectorComposer<Component> {
     @Wire
     private Combobox cbbTable;
 
+    @Wire
+    private Listbox lbSelect;
+
     private List<Table> myModel = new ArrayList();
 
     private ListModel mySubModel;
-
-    @Init
-    public void init(@BindingParam("arg1") String arg1) {
-        System.out.println(arg1);
-        label.setValue("A1");
-    }
-
+    
     @Listen("onClick = #btnSelect")
     public void addSelect() {
-        divSelect.setClass("divColumn");
-        divSelect.appendChild(genDivSelect());
+        lbSelect.setStyle("border: none");
+        Listcell listCell1 = new Listcell();
+        Listcell listCell2 = new Listcell();
+        Listcell listCell3 = new Listcell();
+        listCell1.setStyle("border: none");
+        listCell2.setStyle("border: none");
+        listCell3.setStyle("border: none; text-align: start");
+        listCell1.appendChild((Component) genCbbFunc(new Combobox()));
+        listCell2.appendChild((Component) genCbbColumn(new Combobox()));
+        listCell3.appendChild((Component) genBtnMinus(new Button()));
+        Listitem listitem = new Listitem();
+        listitem.appendChild(listCell1);
+        listitem.appendChild(listCell2);
+        listitem.appendChild(listCell3);
+        lbSelect.appendChild(listitem);
+        System.out.println("----------Size: " + lbSelect.getItems().size());
     }
 
-    public Div genDivSelect() {
-        Div div = new Div();
-        div.setStyle("display: flex");
-        Textbox tb1 = new Textbox();
-        tb1.setClass("tbCondition");
-        tb1.setValue("textbox1");
-        Label lb1 = new Label();
-        lb1.setValue("column1");
-        Button btn = new Button();
+    public Combobox genCbbFunc(Combobox cbbFunc) {
+        cbbFunc.setStyle("width: 100px");
+        cbbFunc.appendItem("MAX");
+        cbbFunc.appendItem("MIN");
+        cbbFunc.appendItem("COUNT");
+        cbbFunc.appendItem("AVERAGE");
+        return cbbFunc;
+    }
+
+    public Combobox genCbbColumn(Combobox cbbColumn) {
+        cbbColumn.setStyle("width: 100px");
+        cbbColumn.appendItem("id");
+        cbbColumn.appendItem("name");
+        cbbColumn.appendItem("title");
+        cbbColumn.appendItem("description");
+        return cbbColumn;
+    }
+
+    public Button genBtnMinus(Button btn) {
         btn.setLabel("-");
-        btn.setClass("btnMinus");
-        div.appendChild((Component) tb1);
-        div.appendChild((Component) lb1);
-        div.appendChild((Component) btn);
-        return div;
+        btn.setStyle("cursor: pointer");
+        return btn;
     }
 
     @Listen("onClick = #btnWhere")

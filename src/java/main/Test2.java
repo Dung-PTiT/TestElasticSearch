@@ -5,15 +5,36 @@
  */
 package main;
 
-import org.apache.commons.httpclient.HttpClient;
-
 /**
  *
  * @author Dell
  */
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpStatus;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+
+import java.io.IOException;
+import org.elasticsearch.client.Request;
+
 public class Test2 {
 
-    public static void main(String[] args) {
-       
+    public static void main(String[] args) throws IOException {
+        RestClient restClient = RestClient.builder(
+                new HttpHost("localhost", 9200, "http")).build();
+
+        Request request = new Request("POST", "/_sql?format=json");
+        request.setJsonEntity("{\"query\":\"Show tables\"}");
+        Response response = restClient.performRequest(request);
+        String responseBody = EntityUtils.toString(response.getEntity());
+        System.out.println(responseBody);
+        JsonObject jsonObject = new JsonParser().parse(responseBody).getAsJsonObject();
+        System.out.println(jsonObject.get("columns"));
+        System.out.println(jsonObject.get("rows"));
+        restClient.close();
     }
 }

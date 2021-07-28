@@ -64,12 +64,12 @@
             <combobox id="cbbTable"/>
         </div>
         <div class="divMain">
-            <div style="width: 300px">
+            <div style="width: 500px">
                 <div style="display: flex; margin: 20px 0 20px 0">
                     <label>SELECT</label>
                     <button id="btnSelect" class="btnPlus" label="+"></button>
                 </div>
-                <div id="divSelect"></div>
+                <listbox id="lbSelect"></listbox>
                 <div style="display: flex; margin: 20px 0 20px 0">
                     <label>FROM</label>
                     <label id="tableName" style="margin-left: 15px">{Table name}</label>
