@@ -88,40 +88,26 @@
                     <label>LIMIT</label>
                     <button id="btnLimit" class="btnPlus" label="+">
                         <attribute name="onClick"><![CDATA[
-Messagebox.show("Are you sure to save?", "Confirm Dialog", Messagebox.OK | Messagebox.IGNORE  | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-    public void onEvent(Event evt) throws InterruptedException {
-        if (evt.getName().equals("onOK")) {
-            alert("Data Saved !");
-        } else if (evt.getName().equals("onIgnore")) {
-            Messagebox.show("Ignore Save", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
-        } else {
-            alert("Save Canceled !");
-        }
-    }
-});
-]]></attribute>
+                        Messagebox.show("Are you sure to save?", "Confirm Dialog", Messagebox.OK | Messagebox.IGNORE  | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+                            public void onEvent(Event evt) throws InterruptedException {
+                                if (evt.getName().equals("onOK")) {
+                                    alert("Data Saved !");
+                                } else if (evt.getName().equals("onIgnore")) {
+                                    Messagebox.show("Ignore Save", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+                                } else {
+                                    alert("Save Canceled !");
+                                }
+                            }
+                        });
+                        ]]></attribute>
                     </button>
                 </div>
                 <div id="divLimit"></div>
             </div>
-            <div style="width: 800px;">
-                <grid autopaging="true" mold="paging" vflex="true">
-                    <columns>
-                        <column hflex="1" label="UserID" align="left" />
-                        <column hflex="1" label="UserName" align="center" />
-                        <column hflex="1" label="Password" align="center" />
-                        <column hflex="1" label="Role" align="center" />
-                        <column hflex="1" label="Department" align="center" />
-                        <column hflex="1" label="Address" align="center" />
-                        <column hflex="1" label="MobileNo" align="center" />
-                        <column hflex="1" label="Email" align="center" />
-                        <column hflex="1" label="Status" align="center" />
-                    </columns>
-                    <rows>
-                        <row></row>
-                    </rows>
-                </grid>	
+            <div style="width: 700px;">
+                <grid mold="paging" pageSize="30" vflex="true" id="tblGrid" style="overflow: scroll;"></grid>	
             </div>
         </div>
+        <button id="btnReset">Reset</button>
     </window>
 </zk>

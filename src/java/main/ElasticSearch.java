@@ -1,21 +1,26 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import model.Table;
-import org.zkoss.bind.annotation.BindingParam;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Auxhead;
+import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Column;
+import org.zkoss.zul.Columns;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.ComboitemRenderer;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
@@ -23,7 +28,8 @@ import org.zkoss.zul.ListModels;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Row;
+import org.zkoss.zul.Rows;
 
 public class ElasticSearch extends SelectorComposer<Component> {
 
@@ -39,10 +45,20 @@ public class ElasticSearch extends SelectorComposer<Component> {
     @Wire
     private Listbox lbSelect;
 
+    @Wire
+    private Grid tblGrid;
+
     private List<Table> myModel = new ArrayList();
 
     private ListModel mySubModel;
-    
+
+    private List<String> colsTbl = Arrays.asList(new String[]{"id", "title",
+        "description", "description", "description",
+        "description", "description", "description"
+    });
+
+    private List<List<String>> rowsTbl = genRows();
+
     @Listen("onClick = #btnSelect")
     public void addSelect() {
         lbSelect.setStyle("border: none");
@@ -176,6 +192,38 @@ public class ElasticSearch extends SelectorComposer<Component> {
             }
         };
         cbbTable.setItemRenderer(myRenderer);
+
+        Auxhead head = new Auxhead();
+        head.setStyle("width: 100%;text-align: center");
+        head.appendChild(new Auxheader("Task1"));
+
+        tblGrid.appendChild(head);
+
+        Columns columns = new Columns();
+        for (int i = 0; i < colsTbl.size(); i++) {
+            Column col = new Column();
+            col.setLabel(colsTbl.get(i));
+            columns.appendChild(col);
+        }
+        tblGrid.appendChild(columns);
+
+        Rows rows = new Rows();
+        for (int i = 0; i < rowsTbl.size(); i++) {
+            List<String> tmp = rowsTbl.get(i);
+            Row row = new Row();
+            for (int j = 0; j < tmp.size(); j++) {
+                Label label = new Label();
+                label.setStyle("  white-space: nowrap; \n"
+                        + "  width: 20px; \n"
+                        + "  overflow: hidden;\n"
+                        + "  text-overflow: ellipsis; \n"
+                        + "  border: 1px solid #000000;");
+                label.setValue(tmp.get(j));
+                row.appendChild(label);
+            }
+            rows.appendChild(row);
+        }
+        tblGrid.appendChild(rows);
     }
 
     //listen on onSelect event from the component ID (#) myCb. See SelectorComposer documentation for more info on the selectors
@@ -183,6 +231,21 @@ public class ElasticSearch extends SelectorComposer<Component> {
     public void handleCbChange(SelectEvent<Comboitem, Table> event) {
         //get the selected object, and get the bean from the object value. Do whatever your need with the bean from there :)
         tableName.setValue(((Table) event.getSelectedItems().iterator().next().getValue()).getName());
+    }
+
+    @Listen("onClick=#btnReset")
+    public void clickReset() {
+        //get the selected object, and get the bean from the object value. Do whatever your need with the bean from there :)
+    }
+
+    public static List<List<String>> genRows() {
+        List<List<String>> list = new ArrayList<>();
+        list.add(Arrays.asList("1", "Post 1", "Socical", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson"));
+        list.add(Arrays.asList("2", "Post 2", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson"));
+        list.add(Arrays.asList("3", "Post 3", "Educatiossssssssssssssssn", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson"));
+        list.add(Arrays.asList("4", "Post 4", "Educatissssssssssssssssssssssssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson"));
+        list.add(Arrays.asList("5", "Post 5", "Educatisssssssssssssssssssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson", "Educatissssssssssssson"));
+        return list;
     }
 
 }
