@@ -7,10 +7,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.ElementColumn;
-import model.ElementOrderBy;
-import model.ElementWhere;
-import model.SelectQuery;
 
 /**
  *
@@ -19,26 +15,33 @@ import model.SelectQuery;
 public class Test {
 
     public static void main(String[] args) {
-        SelectQuery sq = new SelectQuery();
-        sq.setDbName("tool");
-        sq.setTblName("crbt");
-
-        List<ElementColumn> ecs = new ArrayList<>();
-        ecs.add(new ElementColumn("id"));
-        ecs.add(new ElementColumn("name"));
-        ecs.add(new ElementColumn("code"));
-        sq.setEcs(ecs);
-
-        List<ElementWhere> ews = new ArrayList<>();
-        ews.add(new ElementWhere(new ElementColumn("id"), "=", "3"));
-        ews.add(new ElementWhere(new ElementColumn("name"), "LIKE", "abc"));
-        sq.setEws(ews);
-
-        List<ElementOrderBy> eobs = new ArrayList<>();
-        eobs.add(new ElementOrderBy(new ElementColumn("id"), "ASC"));
-        eobs.add(new ElementOrderBy(new ElementColumn("name"), "DESC"));
-        sq.setEobs(eobs);
-
-        System.out.println(sq.toString());
+//        SelectQuery sq = new SelectQuery();
+//        sq.setDbName("tool");
+//        sq.setTblName("crbt");
+//
+//        List<ElementColumn> ecs = new ArrayList<>();
+//        ecs.add(new ElementColumn("id"));
+//        ecs.add(new ElementColumn("name"));
+//        ecs.add(new ElementColumn("code"));
+//        sq.setEcs(ecs);
+//
+//        List<ElementWhere> ews = new ArrayList<>();
+//        ews.add(new ElementWhere(new ElementColumn("id"), "=", "3"));
+//        ews.add(new ElementWhere(new ElementColumn("name"), "LIKE", "abc"));
+//        sq.setEws(ews);
+//
+//        List<ElementOrderBy> eobs = new ArrayList<>();
+//        eobs.add(new ElementOrderBy(new ElementColumn("id"), "ASC"));
+//        eobs.add(new ElementOrderBy(new ElementColumn("name"), "DESC"));
+//        sq.setEobs(eobs);
+//
+//        System.out.println(sq.toString());
+        
+        List<Integer> lIntegers = new ArrayList<Integer>();
+        lIntegers.add(1);
+        lIntegers.add(2);
+        lIntegers.add(300);
+        lIntegers.remove(Integer.valueOf(300));
+        System.out.println("TestClass.main()"+lIntegers);
     }
 }
