@@ -12,6 +12,6 @@ Tạo thêm 1 mảng lưu các id đã tạo
 
 0. cbbTable change -> set value to select query -> not exception -> done
 1. Thêm xóa element -> done  Lưu ý: lIntegers.remove(Integer.valueOf(300));
-2. Check trùng element
-3. Custom where condition
-4. Gen sql
+2. Check trùng element ->. todo...
+3. Custom where condition -> done
+4. Gen sql -> done
