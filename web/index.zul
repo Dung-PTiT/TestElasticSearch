@@ -64,7 +64,7 @@
             <combobox id="cbbTable"/>
         </div>
         <div class="divMain">
-            <div style="width: 500px">
+            <div>
                 <div style="display: flex; margin: 20px 0 20px 0">
                     <label>SELECT</label>
                     <button id="btnSelect" class="btnPlus" label="+"></button>

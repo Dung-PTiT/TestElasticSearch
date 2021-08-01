@@ -7,6 +7,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.ElementColumn;
 
 /**
  *
@@ -36,12 +37,25 @@ public class Test {
 //        sq.setEobs(eobs);
 //
 //        System.out.println(sq.toString());
-        
-        List<Integer> lIntegers = new ArrayList<Integer>();
-        lIntegers.add(1);
-        lIntegers.add(2);
-        lIntegers.add(300);
-        lIntegers.remove(Integer.valueOf(300));
-        System.out.println("TestClass.main()"+lIntegers);
+//        
+//        List<Integer> lIntegers = new ArrayList<Integer>();
+//        lIntegers.add(1);
+//        lIntegers.add(2);
+//        lIntegers.add(300);
+//        lIntegers.remove(Integer.valueOf(300));
+//        System.out.println("TestClass.main()"+lIntegers);
+
+        String s = "1,2,3,4";
+        String s1[] = s.split(",");
+        for (String s2 : s1) {
+            System.out.println(s2);
+        }
+        StringBuilder str = new StringBuilder();
+        String delimiter = "";
+        for (String s2 : s1) {
+            str.append(delimiter).append("'" + s2 + "'");
+            delimiter = ",";
+        }
+        System.out.println(str);
     }
 }

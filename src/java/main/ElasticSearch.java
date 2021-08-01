@@ -186,30 +186,63 @@ public class ElasticSearch extends SelectorComposer<Component> {
         }
 
         Listcell listCell1 = new Listcell();
-        Listcell listCell2 = new Listcell();
-        Listcell listCell3 = new Listcell();
         listCell1.setStyle("border: none");
-        listCell2.setStyle("border: none");
-        listCell3.setStyle("border: none; text-align: start");
-
         Combobox cbbCol = genCbbColumn(new Combobox());
         cbbCol.setId("cbbWhereCol_" + WHERE + "_" + tmp1);
         cbbCol.setTooltiptext("cbbWhereCol_" + WHERE + "_" + tmp1);
         listCell1.appendChild((Component) cbbCol);
 
+        Listcell listCell2 = new Listcell();
+        listCell2.setStyle("border: none");
         Combobox cbbCondition = genCbbCondition(new Combobox());
         cbbCondition.setId("cbbWhereCon_" + tmp1);
         cbbCondition.setTooltiptext("cbbWhereCon_" + tmp1);
         listCell2.appendChild((Component) cbbCondition);
 
+        Listcell listCell3 = new Listcell();
+        listCell3.setId("lc3Value_" + tmp1);
+        listCell3.setStyle("border: none;");
+        listCell3.setVisible(false);
+        Textbox tbValue = new Textbox("--- Value ---");
+        tbValue.setId("tbValue_" + tmp1);
+        tbValue.setTooltiptext("tbValue_" + tmp1);
+        listCell3.appendChild((Component) tbValue);
+
+        Listcell listCell4 = new Listcell();
+        listCell4.setId("lc4Value_" + tmp1);
+        listCell4.setStyle("border: none;");
+        listCell4.setVisible(false);
+        Textbox tbStart = new Textbox("--- Start ---");
+        tbStart.setId("tbStart_" + tmp1);
+        tbStart.setTooltiptext("tbStart_" + tmp1);
+        listCell4.appendChild((Component) tbStart);
+        Textbox tbEnd = new Textbox("--- End ---");
+        tbEnd.setId("tbEnd_" + tmp1);
+        tbEnd.setTooltiptext("tbEnd_" + tmp1);
+        listCell4.appendChild((Component) tbEnd);
+
+        Listcell listCell5 = new Listcell();
+        listCell5.setId("lc5Value_" + tmp1);
+        listCell5.setStyle("border: none;");
+        listCell5.setVisible(false);
+        Textbox tbValueList = new Textbox("--- Value List ---");
+        tbValueList.setId("tbValueList_" + tmp1);
+        tbValueList.setTooltiptext("tbValueList_" + tmp1);
+        listCell5.appendChild((Component) tbValueList);
+
+        Listcell listCell6 = new Listcell();
+        listCell6.setStyle("border: none; text-align: start");
         Button button = genBtnMinus(new Button());
         button.setId("btnDelWhere_" + tmp1);
         button.setTooltiptext("btnDelWhere_" + tmp1);
-        listCell3.appendChild((Component) button);
+        listCell6.appendChild((Component) button);
 
         listitem.appendChild(listCell1);
         listitem.appendChild(listCell2);
         listitem.appendChild(listCell3);
+        listitem.appendChild(listCell4);
+        listitem.appendChild(listCell5);
+        listitem.appendChild(listCell6);
         lbWhere.appendChild(listitem);
 
         button.addEventListener(Events.ON_CLICK, new EventListener() {
@@ -223,28 +256,58 @@ public class ElasticSearch extends SelectorComposer<Component> {
             @Override
             public void onEvent(Event event) throws Exception {
                 Combobox currentCbb = (Combobox) lbWhere.query("#cbbWhereCon_" + tmp1);
-//       Messagebox.show("CBB: " + currentCbb.getValue(),
-//                "Information", Messagebox.OK, Messagebox.INFORMATION);
                 String condition = currentCbb.getValue();
                 if (!condition.equals("--- Condition ---")) {
                     if (condition.equals("=") || condition.equals(">") || condition.equals("<")
                             || condition.equals(">=") || condition.equals("<=") || condition.equals("LIKE")
                             || condition.equals("NOT LIKE")) {
-//                        Textbox tbValue = new Textbox();
-//                        tbValue.setId("tblVal_" + tmp1);
-//                        tbValue.setTooltiptext("tblVal_" + tmp1);
-//                        listCell2.appendChild(tbValue);
-//                        listitem.appendChild(listCell2);
-//                        lbWhere.appendChild(listitem);
+                        lbWhere.query("#lc3Value_" + tmp1).setVisible(true);
+
+                        lbWhere.query("#lc4Value_" + tmp1).setVisible(false);
+                        Textbox tbStart = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbStart.setValue("--- Start ---");
+                        Textbox tbEnd = (Textbox) lbWhere.query("#tbEnd_" + tmp1);
+                        tbEnd.setValue("--- End ---");
+
+                        lbWhere.query("#lc5Value_" + tmp1).setVisible(false);
+                        Textbox tbValueList = (Textbox) lbWhere.query("#tbValueList_" + tmp1);
+                        tbValueList.setValue("--- Value List ---");
                     } else if (condition.equals("IS NULL") || condition.equals("IS NOT NULL")) {
-                        Messagebox.show("Type 2",
-                                "Information", Messagebox.OK, Messagebox.INFORMATION);
+                        lbWhere.query("#lc3Value_" + tmp1).setVisible(false);
+                        Textbox tbValue = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbValue.setValue("--- Value ---");
+
+                        lbWhere.query("#lc4Value_" + tmp1).setVisible(false);
+                        Textbox tbStart = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbStart.setValue("--- Start ---");
+                        Textbox tbEnd = (Textbox) lbWhere.query("#tbEnd_" + tmp1);
+                        tbEnd.setValue("--- End ---");
+
+                        lbWhere.query("#lc5Value_" + tmp1).setVisible(false);
+                        Textbox tbValueList = (Textbox) lbWhere.query("#tbValueList_" + tmp1);
+                        tbValueList.setValue("--- Value List ---");
                     } else if (condition.equals("IS BETWEEN") || condition.equals("IS NOT BETWEEN")) {
-                        Messagebox.show("Type 3",
-                                "Information", Messagebox.OK, Messagebox.INFORMATION);
+                        lbWhere.query("#lc3Value_" + tmp1).setVisible(false);
+                        Textbox tbValue = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbValue.setValue("--- Value ---");
+
+                        lbWhere.query("#lc4Value_" + tmp1).setVisible(true);
+
+                        lbWhere.query("#lc5Value_" + tmp1).setVisible(false);
+                        Textbox tbValueList = (Textbox) lbWhere.query("#tbValueList_" + tmp1);
+                        tbValueList.setValue("--- Value List ---");
                     } else if (condition.equals("IS IN LIST") || condition.equals("IS NOT IN LIST")) {
-                        Messagebox.show("Type 4",
-                                "Information", Messagebox.OK, Messagebox.INFORMATION);
+                        lbWhere.query("#lc3Value_" + tmp1).setVisible(false);
+                        Textbox tbValue = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbValue.setValue("--- Value ---");
+
+                        lbWhere.query("#lc4Value_" + tmp1).setVisible(false);
+                        Textbox tbStart = (Textbox) lbWhere.query("#tbStart_" + tmp1);
+                        tbStart.setValue("--- Start ---");
+                        Textbox tbEnd = (Textbox) lbWhere.query("#tbEnd_" + tmp1);
+                        tbEnd.setValue("--- End ---");
+
+                        lbWhere.query("#lc5Value_" + tmp1).setVisible(true);
                     }
                 }
             }
@@ -253,8 +316,111 @@ public class ElasticSearch extends SelectorComposer<Component> {
 
     @Listen("onClick = #btnExe")
     public void execute() {
-        Messagebox.show("Total select: " + countItemWhere + " | " + lsIdItemWhere.toString(),
-                "Information", Messagebox.OK, Messagebox.INFORMATION);
+//        Messagebox.show("Total select: " + countItemWhere + " | " + lsIdItemWhere.toString(),
+//                "Information", Messagebox.OK, Messagebox.INFORMATION);
+        List<ElementWhere> ews = new ArrayList<>();
+        if (!lsIdItemWhere.isEmpty()) {
+            for (int i = 0; i < lsIdItemWhere.size(); i++) {
+                int index = lsIdItemWhere.get(i);
+                ElementWhere ew = new ElementWhere();
+                if (i > 0) {
+                    Combobox cbbConj = (Combobox) lbWhere.query("#cbbConj_" + index);
+                    if (cbbConj.getValue().equals("--- Conjunction ---")) {
+                        Messagebox.show("Choose conjunction | Line: " + (i + 1), "Error", Messagebox.OK, Messagebox.ERROR);
+                        return;
+                    } else {
+                        ew.setConjunction(cbbConj.getValue());
+                    }
+                } else {
+                    ew.setConjunction("none");
+                }
+                Combobox cbbCol = (Combobox) lbWhere.query("#cbbWhereCol_" + WHERE + "_" + index);
+                Combobox cbbCon = (Combobox) lbWhere.query("#cbbWhereCon_" + index);
+                Textbox tbValue = (Textbox) lbWhere.query("#tbValue_" + index);
+                Textbox tbStart = (Textbox) lbWhere.query("#tbStart_" + index);
+                Textbox tbEnd = (Textbox) lbWhere.query("#tbEnd_" + index);
+                Textbox tbValueList = (Textbox) lbWhere.query("#tbValueList_" + index);
+
+                if (cbbCol.getValue().equals("--- Column ---")) {
+                    Messagebox.show("Choose column | Line: " + (i + 1), "Error", Messagebox.OK, Messagebox.ERROR);
+                    return;
+                } else if (cbbCon.getValue().equals("--- Condition ---")) {
+                    Messagebox.show("Choose condition | Line: " + (i + 1), "Error", Messagebox.OK, Messagebox.ERROR);
+                    return;
+                }
+
+                ew.setColumn(cbbCol.getValue());
+                ew.setCondition(cbbCon.getValue());
+
+                if (tbValue.getValue().isEmpty() || tbValue.getValue().equals("--- Value ---")) {
+                    tbValue.setValue("none");
+                } else {
+                    ew.setValue(tbValue.getValue().trim());
+                }
+
+                if (tbStart.getValue().isEmpty() || tbStart.getValue().equals("--- Start ---")) {
+                    tbStart.setValue("none");
+                } else {
+                    ew.setValueStart(tbStart.getValue().trim());
+                }
+
+                if (tbEnd.getValue().isEmpty() || tbEnd.getValue().equals("--- End ---")) {
+                    tbEnd.setValue("none");
+                } else {
+                    ew.setValueEnd(tbEnd.getValue().trim());
+                }
+
+                if (tbValueList.getValue().isEmpty() || tbValueList.getValue().equals("--- Value List ---")) {
+                    tbValueList.setValue("none");
+                } else {
+                    ew.setValueList(tbValueList.getValue().trim());
+                }
+                ews.add(ew);
+            }
+        }
+
+        String where = buildWhere(ews);
+        Messagebox.show("Resutl: " + where, "Information", Messagebox.OK, Messagebox.INFORMATION);
+    }
+
+    private String buildWhere(List<ElementWhere> ews) {
+        String sql = "";
+        for (int i = 0; i < ews.size(); i++) {
+            ElementWhere ew = ews.get(i);
+            if (!ew.getConjunction().equals("none")) {
+                sql += " " + ew.getConjunction();
+            }
+            sql += " " + ew.getColumn();
+            if (ew.getCondition().equals("=") || ew.getCondition().equals(">") || ew.getCondition().equals("<")
+                    || ew.getCondition().equals(">=") || ew.getCondition().equals("<=")) {
+                if (!ew.getValue().equals("none")) {
+                    sql += " " + ew.getCondition() + " " + ew.getValue();
+                }
+            } else if (ew.getCondition().equals("IS NULL") || ew.getCondition().equals("IS NOT NULL")) {
+                sql += " " + ew.getCondition();
+            } else if (ew.getCondition().equals("LIKE") || ew.getCondition().equals("NOT LIKE")) {
+                if (!ew.getValue().equals("none")) {
+                    sql += " " + ew.getCondition() + " '%" + ew.getValue() + "%'";
+                }
+            } else if (ew.getCondition().equals("IS BETWEEN") || ew.getCondition().equals("IS NOT BETWEEN")) {
+                if (!ew.getValueStart().equals("none") && !ew.getValueEnd().equals("none")) {
+                    sql += " " + ew.getCondition().replace("IS ", "") + " " + ew.getValueStart() + " AND " + ew.getValueEnd();
+                }
+            } else if (ew.getCondition().equals("IS IN LIST") || ew.getCondition().equals("IS NOT IN LIST")) {
+                if (!ew.getValueList().equals("none")) {
+                    String initStr = ew.getValueList();
+                    String strArr[] = initStr.split(",");
+                    StringBuilder strValue = new StringBuilder();
+                    String delimiter = "";
+                    for (String s : strArr) {
+                        strValue.append(delimiter).append("'").append(s).append("'");
+                        delimiter = ",";
+                    }
+                    sql += " " + ((ew.getCondition().equals("IS IN LIST")) ? "IN" : "NOT IN") + " (" + strValue + ")";
+                }
+            }
+        }
+        return sql;
     }
 
     public Combobox genCbbFunc(Combobox cbbFunc) {
@@ -437,5 +603,90 @@ public class ElasticSearch extends SelectorComposer<Component> {
         lbResult.getItems().clear();
         myModel.clear();
         cbbTable.getItems().clear();
+    }
+}
+
+class ElementWhere {
+
+    private String conjunction;
+    private String column;
+    private String condition;
+    private String value;
+    private String valueStart;
+    private String valueEnd;
+    private String valueList;
+
+    public ElementWhere() {
+    }
+
+    public ElementWhere(String conjunction, String column, String condition, String value, String valueStart, String valueEnd, String valueList) {
+        this.conjunction = conjunction;
+        this.column = column;
+        this.condition = condition;
+        this.value = value;
+        this.valueStart = valueStart;
+        this.valueEnd = valueEnd;
+        this.valueList = valueList;
+    }
+
+    public String getConjunction() {
+        return conjunction;
+    }
+
+    public void setConjunction(String conjunction) {
+        this.conjunction = conjunction;
+    }
+
+    public String getColumn() {
+        return column;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getValueStart() {
+        return valueStart;
+    }
+
+    public void setValueStart(String valueStart) {
+        this.valueStart = valueStart;
+    }
+
+    public String getValueEnd() {
+        return valueEnd;
+    }
+
+    public void setValueEnd(String valueEnd) {
+        this.valueEnd = valueEnd;
+    }
+
+    public String getValueList() {
+        return valueList;
+    }
+
+    public void setValueList(String valueList) {
+        this.valueList = valueList;
+    }
+
+    @Override
+    public String toString() {
+        return "ElementWhere{" + "conjunction=" + conjunction + ", column=" + column + ", condition=" + condition + ", value=" + value + ", valueStart=" + valueStart + ", valueEnd=" + valueEnd + ", valueList=" + valueList + '}';
     }
 }
