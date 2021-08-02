@@ -5,9 +5,9 @@
  */
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-import model.ElementColumn;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
 
 /**
  *
@@ -15,47 +15,30 @@ import model.ElementColumn;
  */
 public class Test {
 
-    public static void main(String[] args) {
-//        SelectQuery sq = new SelectQuery();
-//        sq.setDbName("tool");
-//        sq.setTblName("crbt");
-//
-//        List<ElementColumn> ecs = new ArrayList<>();
-//        ecs.add(new ElementColumn("id"));
-//        ecs.add(new ElementColumn("name"));
-//        ecs.add(new ElementColumn("code"));
-//        sq.setEcs(ecs);
-//
-//        List<ElementWhere> ews = new ArrayList<>();
-//        ews.add(new ElementWhere(new ElementColumn("id"), "=", "3"));
-//        ews.add(new ElementWhere(new ElementColumn("name"), "LIKE", "abc"));
-//        sq.setEws(ews);
-//
-//        List<ElementOrderBy> eobs = new ArrayList<>();
-//        eobs.add(new ElementOrderBy(new ElementColumn("id"), "ASC"));
-//        eobs.add(new ElementOrderBy(new ElementColumn("name"), "DESC"));
-//        sq.setEobs(eobs);
-//
-//        System.out.println(sq.toString());
-//        
-//        List<Integer> lIntegers = new ArrayList<Integer>();
-//        lIntegers.add(1);
-//        lIntegers.add(2);
-//        lIntegers.add(300);
-//        lIntegers.remove(Integer.valueOf(300));
-//        System.out.println("TestClass.main()"+lIntegers);
-
-        String s = "1,2,3,4";
-        String s1[] = s.split(",");
-        for (String s2 : s1) {
-            System.out.println(s2);
+    public static boolean validateJavaDate(String strDate) throws java.text.ParseException {
+        if (strDate.trim().equals("")) {
+            return true;
+        } else {
+            SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            sdfrmt.setLenient(false);
+            try {
+                Date date = sdfrmt.parse(strDate);
+                System.out.println(date + " is valid date format");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:ss");
+                System.out.println(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                System.out.println(strDate + " is Invalid Date format");
+                return false;
+            }
+            return true;
         }
-        StringBuilder str = new StringBuilder();
-        String delimiter = "";
-        for (String s2 : s1) {
-            str.append(delimiter).append("'" + s2 + "'");
-            delimiter = ",";
-        }
-        System.out.println(str);
     }
+
+    public static void main(String args[]) throws java.text.ParseException {
+
+        validateJavaDate("abc");
+        validateJavaDate("2021-10-10T19:19:19.123Z");
+        validateJavaDate("12,29,2016");
+    }
+
 }
