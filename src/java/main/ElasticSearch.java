@@ -31,6 +31,8 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zk.ui.event.*;
+import org.zkoss.util.media.*;
 
 public class ElasticSearch extends SelectorComposer<Component> {
 
@@ -38,9 +40,10 @@ public class ElasticSearch extends SelectorComposer<Component> {
     private final String WHERE = "where";
     private final String ORDERBY = "orderby";
     private final String LIMIT = "limit";
+    private final String query = "SELECT * FROM abc WHERE id = 1 ORDER BY id ASC LIMIT 10";
 
     @Wire
-    private Label label, tableName;
+    private Label label, tableName, queryLabel;
 
     @Wire
     private Combobox cbbTable;
@@ -63,6 +66,13 @@ public class ElasticSearch extends SelectorComposer<Component> {
     private Map<String, String> itemWhereMap = new HashMap<>();
     private List<Integer> lsIdItemWhere = new ArrayList<>();
     int countItemWhere = 0;
+
+    @Override
+    public void doAfterCompose(Component comp) throws Exception {
+        super.doAfterCompose(comp);
+        genTable();
+        queryLabel.setValue(query);
+    }
 
     @Listen("onClick = #btnSelect")
     public void addSelect() {
@@ -132,8 +142,14 @@ public class ElasticSearch extends SelectorComposer<Component> {
     @NotifyChange
     @Command("*")
     public void delItemWhere(int id) {
+        int tmp = lsIdItemWhere.get(0);
         lbWhere.removeChild((Listitem) lbWhere.query("#lsItemWhere_" + id));
         lsIdItemWhere.remove(Integer.valueOf(id));
+
+        if (tmp == id) {
+            Listitem item = (Listitem) lbWhere.query("#lsItemWhere_" + lsIdItemWhere.get(0));
+            item.removeChild((Listcell) lbWhere.query("#listcell0_" + lsIdItemWhere.get(0)));
+        }
     }
 
     @NotifyChange
@@ -143,19 +159,6 @@ public class ElasticSearch extends SelectorComposer<Component> {
         String func = cbbFunc.getValue();
         Combobox cbbCol = (Combobox) lbSelect.query("#cbbSelectCol_" + SELECT + "_" + id);
         String col = cbbCol.getValue();
-//        if (itemSelectMap.containsKey(func) && !func.equals("--- No Func ---")) {
-//            String value = itemSelectMap.get(func);
-//            if (value.equals(col) && !col.equals("--- Column ---")) {
-//                Messagebox.show("Func and col existed",
-//                        "Error", Messagebox.OK, Messagebox.ERROR);
-//                return;
-//            }
-//        } else {
-//            itemSelectMap.put(func, col);
-//        }
-//        Messagebox.show("Size:" + itemSelectMap.size(),
-//                "Information", Messagebox.OK, Messagebox.INFORMATION);
-
         Messagebox.show("Func: " + func + " | Col: " + col,
                 "Information", Messagebox.OK, Messagebox.INFORMATION);
     }
@@ -173,6 +176,7 @@ public class ElasticSearch extends SelectorComposer<Component> {
 
         if (lsIdItemWhere.size() > 1) {
             Listcell listCell0 = new Listcell();
+            listCell0.setId("listcell0_" + tmp1);
             listCell0.setStyle("border: none");
             Combobox cbbConj = new Combobox();
             cbbConj.setId("cbbConj_" + tmp1);
@@ -500,12 +504,6 @@ public class ElasticSearch extends SelectorComposer<Component> {
         return div;
     }
 
-    @Override
-    public void doAfterCompose(Component comp) throws Exception {
-        super.doAfterCompose(comp);
-        genTable();
-    }
-
     //listen on onSelect event from the component ID (#) myCb. See SelectorComposer documentation for more info on the selectors
     @Listen("onChange=#cbbTable")
     public void handleCbChange() {
@@ -518,7 +516,7 @@ public class ElasticSearch extends SelectorComposer<Component> {
 
     public void genTable() {
         List<String> tables = new ArrayList<>();
-        tables.add("category");
+        tables.add("category qqqqqqqqqqqqqqqqqqqqqqqqqqq");
         tables.add("message");
         tables.add("post");
         tables.add("tag");
@@ -545,6 +543,7 @@ public class ElasticSearch extends SelectorComposer<Component> {
             public void render(Comboitem item, Table bean, int index) throws Exception {
                 item.setLabel(bean.getName());
                 item.setValue(bean);
+                item.setTooltiptext(bean.getName());
             }
         };
         cbbTable.setItemRenderer(myRenderer);
@@ -603,6 +602,29 @@ public class ElasticSearch extends SelectorComposer<Component> {
         lbResult.getItems().clear();
         myModel.clear();
         cbbTable.getItems().clear();
+    }
+
+    public void onUpload$btn(UploadEvent e)// throws InterruptedException
+    {
+        if (e.getMedias() != null) {
+            StringBuilder sb = new StringBuilder("You uploaded: \n");
+
+            for (Media m : e.getMedias()) {
+                sb.append(m.getName());
+                sb.append(" (");
+                sb.append(m.getContentType());
+                sb.append(")\n");
+                String filename = m.getName();
+                //nos fijamos las extenciones
+                if (filename.indexOf(".txt") == -1 || filename.indexOf(".xls") == -1 || filename.indexOf(".csv") == -1) {
+                    Messagebox.show("Mal");
+                }
+            }
+
+            Messagebox.show(sb.toString());
+        } else {
+            Messagebox.show("You uploaded no files!");
+        }
     }
 }
 

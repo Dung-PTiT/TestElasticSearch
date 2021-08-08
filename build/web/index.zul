@@ -56,9 +56,21 @@
         font-size: 14px;
         width: 100px;
         }
+        
+        .z-comboitem-text{
+        display:inline-block;
+        width:160px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        }
     </style>
     <window apply="main.ElasticSearch"
             viewModel="@id('vm') @init('main.ElasticSearch', arg1='myValue')">
+        <div>
+            <div>Multifile upload demo!</div>
+            <button id="btn" label="Upload some files!" upload="true,maxsize=-1,multiple=true"/>
+        </div>
         <div style="text-align: center">
             <label>Select table: </label>
             <combobox id="cbbTable"/>
@@ -66,7 +78,9 @@
         <div class="divMain">
             <div>
                 <div style="display: flex; margin: 20px 0 20px 0">
-                    <label>SELECT</label>
+                    <label>SELECT</label>    
+                    <separator bar="true" />
+                    <label>abc</label>
                     <button id="btnSelect" class="btnPlus" label="+"></button>
                 </div>
                 <listbox id="lbSelect"></listbox>
@@ -90,7 +104,10 @@
                 </div>
                 <listbox id="lbLimit"></listbox> 
                 <button id="btnExe">Execute</button>
-            </div>
+            </div>    
+        </div>
+        <div>
+            <label id="queryLabel"></label>
         </div>
         <div>
             <listbox vflex="true" id="lbHead" emptyMessage="No data"></listbox>	
