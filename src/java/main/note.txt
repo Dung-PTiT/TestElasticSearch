@@ -20,12 +20,18 @@ SHOW INDEX FROM newlifesystem.ir_gprs_call_20191003;
 
 SELECT * FROM newlifesystem.ir_gprs_call_20191003;
 
-SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p where p.IMSI = '450050566937843' and p.ISDN = '821056696071';
+SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p where p.IMSI = '460022602171786' and p.ISDN = '8615260222219';
 
-SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p USE INDEX (idx_1,idx_2) where p.IMSI = '450050566937843' and p.ISDN = '821056696071';
+SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p USE INDEX (idx_1,idx_2) where p.IMSI = '450050273139562' and p.ISDN = '821027315939';
 
 CREATE INDEX idx_1
 ON newlifesystem.ir_gprs_call_20191003 (IMSI);
 
 CREATE INDEX idx_2
 ON newlifesystem.ir_gprs_call_20191003 (ISDN);
+
+ALTER TABLE newlifesystem.ir_gprs_call_20191003
+DROP INDEX idx_1;
+
+ALTER TABLE newlifesystem.ir_gprs_call_20191003
+DROP INDEX idx_2;
