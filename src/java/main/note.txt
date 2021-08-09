@@ -15,3 +15,16 @@ Tạo thêm 1 mảng lưu các id đã tạo
 2. Check trùng element ->. todo...
 3. Custom where condition -> done
 4. Gen sql -> done
+
+SELECT * FROM newlifesystem.users;
+
+ SELECT * FROM newlifesystem.users USE INDEX (col1_index,col2_index)
+    WHERE col1=1 AND col2=2 AND col3=3;
+    
+SHOW INDEX FROM newlifesystem.users;    
+    
+CREATE INDEX idx_pname
+ON newlifesystem.users (username, name);
+
+SELECT * FROM newlifesystem.users USE INDEX (idx_pname)
+    WHERE username='dung' AND name='Dũng';
