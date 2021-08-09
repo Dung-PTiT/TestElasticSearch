@@ -16,15 +16,16 @@ Tạo thêm 1 mảng lưu các id đã tạo
 3. Custom where condition -> done
 4. Gen sql -> done
 
-SELECT * FROM newlifesystem.users;
+SHOW INDEX FROM newlifesystem.ir_gprs_call_20191003;  
 
- SELECT * FROM newlifesystem.users USE INDEX (col1_index,col2_index)
-    WHERE col1=1 AND col2=2 AND col3=3;
-    
-SHOW INDEX FROM newlifesystem.users;    
-    
-CREATE INDEX idx_pname
-ON newlifesystem.users (username, name);
+SELECT * FROM newlifesystem.ir_gprs_call_20191003;
 
-SELECT * FROM newlifesystem.users USE INDEX (idx_pname)
-    WHERE username='dung' AND name='Dũng';
+SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p where p.IMSI = '450050566937843' and p.ISDN = '821056696071';
+
+SELECT * FROM newlifesystem.ir_gprs_call_20191003 as p USE INDEX (idx_1,idx_2) where p.IMSI = '450050566937843' and p.ISDN = '821056696071';
+
+CREATE INDEX idx_1
+ON newlifesystem.ir_gprs_call_20191003 (IMSI);
+
+CREATE INDEX idx_2
+ON newlifesystem.ir_gprs_call_20191003 (ISDN);
