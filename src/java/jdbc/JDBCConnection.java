@@ -64,6 +64,11 @@ public class JDBCConnection {
     }
     
     public static void main(String[] args) throws SQLException {
-       getTables().toArray();
+      Connection connection = JDBCConnection.getInstance().getConnection();
+        if (connection != null) {
+            System.out.println("Thanh cong");
+        } else {
+            System.out.println("That bai");
+        }
     }
 }
